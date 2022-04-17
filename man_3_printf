@@ -1,0 +1,81 @@
+.\" Manpage for _printf
+.\" Contact 2495@holbertonschool.com justin.harris@holbertonschool.com to corr\
+ect errors or typos.
+.TH man 1 "15 March 2021" "1.0" "_printf man page"
+.SH NAME
+_printf
+.SH SYNOPSIS
+_printf [USERNAME]
+.SH DESCRIPTION
+        The _printf writes the output to standard output using format. The giv\
+en string contains the elements that will be printed out in the stdout.
+.SH OPTIONS
+
+print_c----------------Prints a character-------------------%c
+print_s----------------Prints a string----------------------%s
+print_p----------------Prints a %---------------------------%%
+print_i----------------Prints an integer--------------------%d & %i
+print_o----------------Prints number in base 8--------------%o
+print_b----------------Prints a binary, custom specifier----%b
+print_hexLower---------Prints hexadecimal in lowercase------%x
+print_hexUpper---------Prints hexadecimal in uppercase------%X
+print_u----------------Prints unsigned integer--------------%u
+print_r----------------Prints string in reverse-------------%r
+-----------------------custom specifier-----------------------
+print_R----------------Prints string in rot13---------------%R
+-----------------------custom specifier-----------------------
+
+.SH SEE ALSO
+print(3)
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+         Nikki Edmonds (2495@HOLBERTNSCHOOL.COM)
+         Justin Harris (JUSTIN.HARRIS@HOLBERTONSCHOOL.COM)
+.SH EXAMPLE
+
+#include"holberton.h"
+#include<stdio.h>
+#include<stdarg.h>
+#include<unistd.h>
+#include<stdlib.h>
+
+
+int _printf(const char *format, ...)
+{
+        va_list list;
+        unsigned int i = 0, j = 0;
+        va_start(list, format);
+
+        if (!format || (format[0] == '%' && format[1] == '\0'))
+                return (-1);
+        for (i = 0; format != NULL && format[i] != '\0'; i++)
+        {
+                if (format[i] == '%')
+                {
+                        if (format[i + 1] == '%')
+                        {
+                                _putchar('%');
+                                j++;
+                                i++;
+                        }
+                        else if (_typefor(format, i + 1) != NULL)
+                        {
+                                j += _typefor(format, i + 1)(list);
+                                i++;
+                        }
+                        else
+                        {
+                                _putchar(format[i]);
+                                j++;
+                        }
+                }
+                else
+                {
+                        _putchar(format[i]);
+                        j++;
+                }
+        }
+        va_end(list);
+        return (j);
+}
