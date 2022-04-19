@@ -1,81 +1,88 @@
-.\" Manpage for _printf
-.\" Contact 2495@holbertonschool.com justin.harris@holbertonschool.com to corr\
-ect errors or typos.
-.TH man 1 "15 March 2021" "1.0" "_printf man page"
+.\" _printf man page /usr/share/man/man3/printf.3
+.\"
+.TH _PRINTF 3 "15-03-2021" "0.1" "_printf"
+
 .SH NAME
 _printf
+
+.B_printf - format and print data. Part of a project at Holberton School.
+
 .SH SYNOPSIS
-_printf [USERNAME]
+Part of a project at holberton school.
+This project mimics the printf found in in C.
+
+_printf FORMAT [ARGUMENT]...
+.ss
+
 .SH DESCRIPTION
-        The _printf writes the output to standard output using format. The giv\
-en string contains the elements that will be printed out in the stdout.
+
+_printf() the function produces output according to format string that \
+specifies how subsequent arguments are written and converted to stdout, the \
+standard output stream.
+
+_printf() will loop through the format for a conversion specifier (%). If found\
+, it will access an array of structures and match the corresponding character \
+with the given function. The specified function will return a string-converted \
+version of the result and immediately passed into the buffer.
+
+.SH CONVERSION SPECIFIERS
+
+.IP %s
+prints a string.
+.IP %c
+prints a character.
+.IP %d
+prints an integer. Same as %i.
+.IP %i
+See %d.
+.IP %u
+Prints unsigned int.
+.IP %o
+Converts unsigned int to octal.
+.IP %x
+Converts unsigned int to hexadecimal (lowercase)
+.IP %X
+Converts unsigned int to hexadecimal (uppercase)
+.IP %r
+Prints reverse of intput string
+.IP %R
+Converts string to rot13
+
 .SH OPTIONS
 
-print_c----------------Prints a character-------------------%c
-print_s----------------Prints a string----------------------%s
-print_p----------------Prints a %---------------------------%%
-print_i----------------Prints an integer--------------------%d & %i
-print_o----------------Prints number in base 8--------------%o
-print_b----------------Prints a binary, custom specifier----%b
-print_hexLower---------Prints hexadecimal in lowercase------%x
-print_hexUpper---------Prints hexadecimal in uppercase------%X
-print_u----------------Prints unsigned integer--------------%u
-print_r----------------Prints string in reverse-------------%r
------------------------custom specifier-----------------------
-print_R----------------Prints string in rot13---------------%R
------------------------custom specifier-----------------------
+Pending
 
-.SH SEE ALSO
-print(3)
+.SH FORMAT
+controls the output as in C printf.  Interpreted sequences are:
+
+       \n     new line
+
+       \t     tab
+
+       %%     a single %
+
+.SS Example
+.RS
+_printf("Hello %s", "world");
+Prints string "Hello world"
+
+_printf("They call me mad, but one day when history of France is written, they \
+will mark my name well ...%s ", "Sidney Applebaum")
+
+.RE
+
+.SS Return Value
+Upon success, these main function will return the number of characters printed.
+
+.SH "SEE ALSO"
+.SH ""
+
+.BR printf(1)
+
+.P
+
 .SH BUGS
-No known bugs.
-.SH AUTHOR
-         Nikki Edmonds (2495@HOLBERTNSCHOOL.COM)
-         Justin Harris (JUSTIN.HARRIS@HOLBERTONSCHOOL.COM)
-.SH EXAMPLE
+Memory issues are known to frequent this function. User beware.
 
-#include"holberton.h"
-#include<stdio.h>
-#include<stdarg.h>
-#include<unistd.h>
-#include<stdlib.h>
-
-
-int _printf(const char *format, ...)
-{
-        va_list list;
-        unsigned int i = 0, j = 0;
-        va_start(list, format);
-
-        if (!format || (format[0] == '%' && format[1] == '\0'))
-                return (-1);
-        for (i = 0; format != NULL && format[i] != '\0'; i++)
-        {
-                if (format[i] == '%')
-                {
-                        if (format[i + 1] == '%')
-                        {
-                                _putchar('%');
-                                j++;
-                                i++;
-                        }
-                        else if (_typefor(format, i + 1) != NULL)
-                        {
-                                j += _typefor(format, i + 1)(list);
-                                i++;
-                        }
-                        else
-                        {
-                                _putchar(format[i]);
-                                j++;
-                        }
-                }
-                else
-                {
-                        _putchar(format[i]);
-                        j++;
-                }
-        }
-        va_end(list);
-        return (j);
-}
+.SH "AUTHOR"
+Beteab Admassu and Yitbarek yakob
